@@ -1,0 +1,27 @@
+on: push
+
+name: AzureStack WebApps PublishProfile Sample
+
+jobs:
+  build-and-deploy:
+    runs-on: rakku-wd
+    steps:
+    # checkout the repo
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@master
+    
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: 'npm install, build, and test'
+      run: |
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+       
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: gha-test-app
+        publish-profile: ${{ secrets.AZS_AAD_WebApp_PublishProfile }}

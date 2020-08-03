@@ -1,7 +1,6 @@
-on:
-  pull_request:
-    branches:
-      - master
+on: push
+
+name: Azure WebApps Sample
 
 jobs:
   build_test_job:
